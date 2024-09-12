@@ -1,4 +1,4 @@
-from google_books_api_wrapper.api import GoogleBooksAPI
+from packages.google_books_api_wrapper.api import GoogleBooksAPI
 
 client = GoogleBooksAPI()
 
