@@ -82,6 +82,7 @@ def insert_book_data(title, authors, publisher, published_date, description, isb
         
         # Insert categories and link them to the book in the book_category table
         for category in categories:
+            category = category.capitalize()
             # Insert the category if it doesn't already exist
             cursor.execute('SELECT id FROM category WHERE name = ?', (category,))
             category_row = cursor.fetchone()
@@ -157,4 +158,9 @@ def get_books_by_category(category):
     params = (term,)
     print(params)
     results = run_query(query, params)
+    return results
+
+def get_all_books():
+    query = "SELECT * from books inner join book_category on books.id = book_category.book_id inner join category on book_category.category_id = category.id"
+    results = run_query(query)
     return results

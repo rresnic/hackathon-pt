@@ -49,10 +49,19 @@ def books_by_category_API():
     results =get_books_by_category_API(category)
     print(tabulate_books(results))
 
+def get_categories():
+    query = """SELECT DISTINCT name from Category"""
+    categories = books.run_query(query)
+    categories = [item[0] for item in categories]
+    print(", ".join(categories))
 
 def get_all_books():
     results = get_all_books_API()
     print(tabulate_books(results))
+
+def get_all_books_db():
+    results = books.get_all_books()
+    print(results)
 
 def add_books_T():
     title = input("Enter a title: ")
@@ -65,18 +74,20 @@ def add_books_T():
 def add_books_A():
     author = input("Enter an author: ")
     results = get_books_by_author_API(author)
-    print(tabulate_books(list(results)))
+    results = list(results)
+    print(tabulate_books(results))
     user_choice = get_valid_input("Add these books to the library? Y/N ", ["Y", "N"])
     if user_choice == "Y":
-        books.insert_books_from_google(list(results))
+        books.insert_books_from_google(results)
 
 def add_books_C():
     category = input("Enter a category: ")
     results = get_books_by_category_API(category)
-    print(tabulate_books(list(results)))
+    results = list(results)
+    print(tabulate_books(results))
     user_choice = get_valid_input("Add these books to the library? Y/N ", ["Y", "N"])
     if user_choice == "Y":
-        books.insert_books_from_google(list(results))
+        books.insert_books_from_google(results)
 
 def add_books_I():
     ISBN = input("Enter an ISBN: ")
@@ -89,18 +100,20 @@ def add_books_I():
 def add_books_P():
     publisher = input("Enter a publisher: ")
     results = get_books_by_category_API(publisher)
-    print(tabulate_books(list(results)))
+    results = list(results)
+    print(tabulate_books(results))
     user_choice = get_valid_input("Add these books to the library? Y/N ", ["Y", "N"])
     if user_choice == "Y":
-        books.insert_books_from_google(list(results))
+        books.insert_books_from_google(results)
 
 def add_books_menu():
     menu_string = """
 Search for books to add to your inventory
-Search by (T)itle, (A)uthor, (C)ategory, (I)sbn, (P)ublisher or
+Search by (T)itle, (A)uthor, (C)ategory, (I)sbn, (P)ublisher
+(V)iew Categories
 (B)ack
 """
-    valid_inputs = ["T", "A", "C", "I", "P", "B"]
+    valid_inputs = ["T", "A", "C", "I", "P", "V", "B"]
     while True:
         user_choice = get_valid_input(menu_string, valid_inputs)
         if user_choice == "B":
@@ -108,7 +121,7 @@ Search by (T)itle, (A)uthor, (C)ategory, (I)sbn, (P)ublisher or
         my_func = add_books_dict[user_choice]
         my_func()
     
-add_books_dict = {"T": add_books_T, "A": add_books_A, "C": add_books_C, "I": add_books_I, "P": add_books_P}
+add_books_dict = {"T": add_books_T, "A": add_books_A, "C": add_books_C, "I": add_books_I, "P": add_books_P, "V": get_categories}
 
 def show_consult_menu():
     """
@@ -182,9 +195,11 @@ def get_filtered_table(data, headers, skip_columns=[]):
     return table
 
 main_function_dict = {"B": add_books_menu, "U": add_user, "C": show_consult_menu, "S": make_sale} # todo make these function
-consult_menu_dict = {"U": show_user_statistics_menu, "S": best_sellers, "C": books_by_category_API, "A": get_all_books}
+consult_menu_dict = {"U": show_user_statistics_menu, "S": best_sellers, "C": books_by_category_API, "A": get_all_books_db}
 # inv_menu_dict = {"A": add_book_menu, "S": search_inv_menu}
 # inventory_menu_dict = ("A": show_all_inventory, "B": search_by_name, "C": search_by_category, "D": search_by_isbn, "I": add_book_menu)
 # inventory_add_dict = {"A": search_api_by_author, "B": search_api_by_name, "C": search_api_by_category, "D": search_api_by_isbn}
 
 show_menu()
+print(get_all_books_db())
+# print(get_categories())
