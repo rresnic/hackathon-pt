@@ -47,9 +47,9 @@ def get_books_by_author_API(author):
 
 def get_books_by_publisher(publisher):
 	try:
-		return client.get_books_by_publisher()
+		return client.get_books_by_publisher(publisher)
 	except:
-		raise Exception('Search by author exception')
+		raise Exception('Search by publisher exception')
 
 def search_book_API(
 		search_term: str = "", 

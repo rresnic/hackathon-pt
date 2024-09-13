@@ -86,13 +86,21 @@ def add_books_I():
     if user_choice == "Y":
         books.insert_book_from_google(results)
 
+def add_books_P():
+    publisher = input("Enter a publisher: ")
+    results = get_books_by_category_API(publisher)
+    print(tabulate_books(list(results)))
+    user_choice = get_valid_input("Add these books to the library? Y/N ", ["Y", "N"])
+    if user_choice == "Y":
+        books.insert_books_from_google(list(results))
+
 def add_books_menu():
     menu_string = """
 Search for books to add to your inventory
-Search by (T)itle, (A)uthor, (C)ategory or (I)sbn, or
+Search by (T)itle, (A)uthor, (C)ategory, (I)sbn, (P)ublisher or
 (B)ack
 """
-    valid_inputs = ["T", "A", "C", "I", "B"]
+    valid_inputs = ["T", "A", "C", "I", "P", "B"]
     while True:
         user_choice = get_valid_input(menu_string, valid_inputs)
         if user_choice == "B":
@@ -100,7 +108,7 @@ Search by (T)itle, (A)uthor, (C)ategory or (I)sbn, or
         my_func = add_books_dict[user_choice]
         my_func()
     
-add_books_dict = {"T": add_books_T, "A": add_books_A, "C": add_books_C, "I": add_books_I}
+add_books_dict = {"T": add_books_T, "A": add_books_A, "C": add_books_C, "I": add_books_I, "P": add_books_P}
 
 def show_consult_menu():
     """
