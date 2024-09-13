@@ -1,6 +1,6 @@
 import sqlite3
 from tabulate import tabulate
-import store
+import sql.store as store
 
 
 def run_query(query, params=None):

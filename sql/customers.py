@@ -5,7 +5,7 @@ from tabulate import tabulate
 
 def run_query(query, params=None):
     try:
-        connection = sqlite3.connect("bookstore.db")
+        connection = sqlite3.connect("../db/bookstore.db")
         cursor = connection.cursor()
         if params:
             cursor.execute(query, params)
@@ -48,7 +48,7 @@ class Customer:
             query = "INSERT into customers (name, age, email) VALUES (?, ?, ?)"
             params = (self.name, self.age, self.email)
             try:
-                connection = sqlite3.connect("bookstore.db")
+                connection = sqlite3.connect("../db/bookstore.db")
                 cursor = connection.cursor()
                 cursor.execute(query, params)
                 connection.commit()
@@ -82,7 +82,7 @@ class Customer:
             params = (self.id,)
             temp_id = self.id
             try:
-                connection = sqlite3.connect("bookstore.db")
+                connection = sqlite3.connect("../db/bookstore.db")
                 cursor = connection.cursor()
                 cursor.execute(query, params)
                 connection.commit()
@@ -135,7 +135,7 @@ class Customer:
     
     def run_query(self, query, params = None):
         try:
-            connection = sqlite3.connect("bookstore.db")
+            connection = sqlite3.connect("../db/bookstore.db")
             cursor = connection.cursor()
             if params:
                 cursor.execute(query, params)
