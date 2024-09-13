@@ -1,4 +1,4 @@
-from customers import Customer
+from sql.customers import Customer
 import sqlite3
 from tabulate import tabulate
 
