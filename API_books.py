@@ -25,9 +25,9 @@ def get_books_by_category_API(category):
 def get_book_by_isbn(isbn):
 	try:
 		if len(isbn) == 10:
-			client.get_book_by_isbn10()
-		elif len(isbn == 13):
-			client.get_book_by_isbn13()
+			return client.get_book_by_isbn10(isbn)
+		elif len(isbn) == 13:
+			return client.get_book_by_isbn13(isbn)
 		else:
 			raise Exception('ISBN incorrect')
 	except:
@@ -41,7 +41,7 @@ def get_book_by_title_API(title):
 	
 def get_books_by_author_API(author):
 	try:
-		return client.get_books_by_author()
+		return client.get_books_by_author(author)
 	except:
 		raise Exception('Search by author exception')
 
