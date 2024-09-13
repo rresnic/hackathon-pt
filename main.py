@@ -49,24 +49,39 @@ def books_by_category_API():
     results =get_books_by_category_API(category)
     print(tabulate_books(results))
 
-def get_categories():
-    query = """SELECT DISTINCT name from Category"""
-    categories = books.run_query(query)
-    categories = [item[0] for item in categories]
-    print(", ".join(categories))
+def get_books_by_category_db():
+    category = input("Enter a category: ")
+    results =books.get_books_by_category(category)
+    print(get_filtered_table(results, ["ID", "Title", "Author", "Publisher", "Published Date", "Description", "ISBN"], [0, 5]))
+
+def get_books_by_author_db():
+    author = input("Enter an author: ")
+    results =books.get_books_by_author(author)
+    print(get_filtered_table(results, ["ID", "Title", "Author", "Publisher", "Published Date", "Description", "ISBN"], [0, 5]))
+
+def get_books_by_title_db():
+    title = input("Enter a title: ")
+    results =books.get_books_by_title(title)
+    print(get_filtered_table(results, ["ID", "Title", "Author", "Publisher", "Published Date", "Description", "ISBN"], [0, 5]))
+
+def get_books_by_publisher_db():
+    publisher = input("Enter a publisher: ")
+    results =books.get_books_by_publisher(publisher)
+    print(get_filtered_table(results, ["ID", "Title", "Author", "Publisher", "Published Date", "Description", "ISBN"], [0, 5]))
+
+def get_all_books_db():
+    results =books.get_all_books()
+    print(get_filtered_table(results, ["ID", "Title", "Author", "Publisher", "Published Date", "Description", "ISBN"], [0, 5]))
 
 def get_all_books():
     results = get_all_books_API()
     print(tabulate_books(results))
 
-def get_all_books_db():
-    results = books.get_all_books()
-    print(results)
-
 def add_books_T():
     title = input("Enter a title: ")
     results = get_book_by_title_API(title)
-    print(results)
+    results = list(results)
+    print(tabulate_books(list(results)))
     user_choice = get_valid_input("Add this book to the library? Y/N ", ["Y", "N"])
     if user_choice == "Y":
         books.insert_book_from_google(results)
@@ -76,7 +91,7 @@ def add_books_A():
     results = get_books_by_author_API(author)
     results = list(results)
     print(tabulate_books(results))
-    user_choice = get_valid_input("Add these books to the library? Y/N ", ["Y", "N"])
+    user_choice = get_valid_input("Add this book to the library? Y/N ", ["Y", "N"])
     if user_choice == "Y":
         books.insert_books_from_google(results)
 
@@ -85,35 +100,35 @@ def add_books_C():
     results = get_books_by_category_API(category)
     results = list(results)
     print(tabulate_books(results))
-    user_choice = get_valid_input("Add these books to the library? Y/N ", ["Y", "N"])
+    user_choice = get_valid_input("Add this book to the library? Y/N ", ["Y", "N"])
     if user_choice == "Y":
         books.insert_books_from_google(results)
 
 def add_books_I():
     ISBN = input("Enter an ISBN: ")
     results = get_book_by_isbn(ISBN)
-    print(results)
+    results = list(results)
+    print(tabulate_books(results))
     user_choice = get_valid_input("Add this book to the library? Y/N ", ["Y", "N"])
     if user_choice == "Y":
-        books.insert_book_from_google(results)
+        books.insert_books_from_google(results)
 
 def add_books_P():
     publisher = input("Enter a publisher: ")
     results = get_books_by_category_API(publisher)
     results = list(results)
     print(tabulate_books(results))
-    user_choice = get_valid_input("Add these books to the library? Y/N ", ["Y", "N"])
+    user_choice = get_valid_input("Add this book to the library? Y/N ", ["Y", "N"])
     if user_choice == "Y":
         books.insert_books_from_google(results)
 
 def add_books_menu():
     menu_string = """
 Search for books to add to your inventory
-Search by (T)itle, (A)uthor, (C)ategory, (I)sbn, (P)ublisher
-(V)iew Categories
+Search by (T)itle, (A)uthor, (C)ategory, (I)sbn, (P)ublisher or
 (B)ack
 """
-    valid_inputs = ["T", "A", "C", "I", "P", "V", "B"]
+    valid_inputs = ["T", "A", "C", "I", "P", "B"]
     while True:
         user_choice = get_valid_input(menu_string, valid_inputs)
         if user_choice == "B":
@@ -121,7 +136,7 @@ Search by (T)itle, (A)uthor, (C)ategory, (I)sbn, (P)ublisher
         my_func = add_books_dict[user_choice]
         my_func()
     
-add_books_dict = {"T": add_books_T, "A": add_books_A, "C": add_books_C, "I": add_books_I, "P": add_books_P, "V": get_categories}
+add_books_dict = {"T": add_books_T, "A": add_books_A, "C": add_books_C, "I": add_books_I, "P": add_books_P}
 
 def show_consult_menu():
     """
@@ -131,16 +146,21 @@ def show_consult_menu():
 (U)ser statistics
 Best (S)ellers
 Books by (C)ategory
-(A)ll books
+Books by (A)uthor
+Books by (T)itle
+Books by (P)ublisher
+A(L)l Books
 (B)ack
 """
-    valid_inputs = ["U", "S", "C", "A", "B"]
+    valid_inputs = ["U", "S", "C", "A", "T", "P", "L",  "B"]
     while True:
         user_choice = get_valid_input(menu_string, valid_inputs)
         if user_choice == "B":
             break
         my_func = consult_menu_dict[user_choice]
         my_func()
+
+consult_menu_dict = {"U": show_user_statistics_menu, "S": best_sellers, "C": get_books_by_category_db, "A": get_books_by_author_db, "T": get_books_by_title_db, "P":get_books_by_publisher_db,  "L": get_all_books_db}
     
 def show_inventory_menu():
     menu_string="""
@@ -195,11 +215,9 @@ def get_filtered_table(data, headers, skip_columns=[]):
     return table
 
 main_function_dict = {"B": add_books_menu, "U": add_user, "C": show_consult_menu, "S": make_sale} # todo make these function
-consult_menu_dict = {"U": show_user_statistics_menu, "S": best_sellers, "C": books_by_category_API, "A": get_all_books_db}
 # inv_menu_dict = {"A": add_book_menu, "S": search_inv_menu}
 # inventory_menu_dict = ("A": show_all_inventory, "B": search_by_name, "C": search_by_category, "D": search_by_isbn, "I": add_book_menu)
 # inventory_add_dict = {"A": search_api_by_author, "B": search_api_by_name, "C": search_api_by_category, "D": search_api_by_isbn}
 
 show_menu()
-print(get_all_books_db())
-# print(get_categories())
+# print(books.get_books_by_title("hollows"))
