@@ -3,6 +3,8 @@ from helper_functions import get_valid_input
 from API_books import get_all_books_API,get_book_by_isbn,get_book_by_title_API,get_books_by_author_API,get_books_by_category_API,get_books_by_publisher
 from customers_editor import CustomerEditor
 from tabulate import tabulate
+import books
+
 def add_book():
     pass
 
@@ -52,6 +54,53 @@ def get_all_books():
     results = get_all_books_API()
     print(tabulate_books(results))
 
+def add_books_T():
+    title = input("Enter a title: ")
+    results = get_book_by_title_API(title)
+    print(results)
+    user_choice = get_valid_input("Add this book to the library? Y/N ", ["Y", "N"])
+    if user_choice == "Y":
+        books.insert_book_from_google(results)
+
+def add_books_A():
+    author = input("Enter an author: ")
+    results = get_books_by_author_API(author)
+    print(tabulate_books(list(results)))
+    user_choice = get_valid_input("Add these books to the library? Y/N ", ["Y", "N"])
+    if user_choice == "Y":
+        books.insert_books_from_google(list(results))
+
+def add_books_C():
+    category = input("Enter a category: ")
+    results = get_books_by_category_API(category)
+    print(tabulate_books(list(results)))
+    user_choice = get_valid_input("Add these books to the library? Y/N ", ["Y", "N"])
+    if user_choice == "Y":
+        books.insert_books_from_google(list(results))
+
+def add_books_I():
+    ISBN = input("Enter an ISBN: ")
+    results = get_book_by_isbn(ISBN)
+    print(results)
+    user_choice = get_valid_input("Add this book to the library? Y/N ", ["Y", "N"])
+    if user_choice == "Y":
+        books.insert_book_from_google(results)
+
+def add_books_menu():
+    menu_string = """
+Search for books to add to your inventory
+Search by (T)itle, (A)uthor, (C)ategory or (I)sbn, or
+(B)ack
+"""
+    valid_inputs = ["T", "A", "C", "I", "B"]
+    while True:
+        user_choice = get_valid_input(menu_string, valid_inputs)
+        if user_choice == "B":
+            break
+        my_func = add_books_dict[user_choice]
+        my_func()
+    
+add_books_dict = {"T": add_books_T, "A": add_books_A, "C": add_books_C, "I": add_books_I}
 
 def show_consult_menu():
     """
@@ -72,6 +121,20 @@ Books by (C)ategory
         my_func = consult_menu_dict[user_choice]
         my_func()
     
+def show_inventory_menu():
+    menu_string="""
+(A)dd new books
+(S)earch inventory
+(B)ack
+"""
+    valid_inputs= ["A", "S", "B"]
+    while True:
+        user_choice = get_valid_input(menu_string, valid_inputs)
+        if user_choice == "B":
+            break
+        my_func = inv_menu_dict[user_choice]
+        my_func()
+
 def show_menu():
     """
     Shows the primary program menu
@@ -99,7 +162,21 @@ or e(X)it the program
             break
     # return user_choice
 
-main_function_dict = {"B": add_book, "U": add_user, "C": show_consult_menu, "S": make_sale} # todo make these function
+def get_filtered_table(data, headers, skip_columns=[]):
+    # Filter out the headers we want to skip
+    filtered_headers = [h for i, h in enumerate(headers) if i not in skip_columns]
+    
+    # Filter out the data for columns we want to skip
+    filtered_data = [[row[i] for i in range(len(row)) if i not in skip_columns] for row in data]
+    
+    # Generate the table
+    table = tabulate(filtered_data, headers=filtered_headers, tablefmt="grid")
+    return table
+
+main_function_dict = {"B": add_books_menu, "U": add_user, "C": show_consult_menu, "S": make_sale} # todo make these function
 consult_menu_dict = {"U": show_user_statistics_menu, "S": best_sellers, "C": books_by_category_API, "A": get_all_books}
+# inv_menu_dict = {"A": add_book_menu, "S": search_inv_menu}
+# inventory_menu_dict = ("A": show_all_inventory, "B": search_by_name, "C": search_by_category, "D": search_by_isbn, "I": add_book_menu)
+# inventory_add_dict = {"A": search_api_by_author, "B": search_api_by_name, "C": search_api_by_category, "D": search_api_by_isbn}
 
 show_menu()
