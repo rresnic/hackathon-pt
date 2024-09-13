@@ -1,8 +1,8 @@
 # This is going to be the main python file for the project
 from helper_functions import get_valid_input
-from API_books import get_all_books_API,get_book_by_isbn,get_book_by_title_API,get_books_by_author_API,get_books_by_category_API,get_books_by_publisherfrom 
+from API_books import get_all_books_API,get_book_by_isbn,get_book_by_title_API,get_books_by_author_API,get_books_by_category_API,get_books_by_publisher
 from customers_editor import CustomerEditor
-
+from tabulate import tabulate
 def add_book():
     pass
 
@@ -34,14 +34,24 @@ Show (A)ge distribution
         my_func = us_f_dict[user_choice]
         my_func()
 
+def tabulate_books(books):
+    headers = ["Title", "Authors"]
+    data = [[book.title, ','.join(book.authors) if isinstance(book.authors, list) else (book.authors or '')] for book in books]
+    return tabulate(data, headers, tablefmt="grid")
+
 def best_sellers():
     pass
 
-def books_by_category(category):
-    get_books_by_category_API(category)
+def books_by_category_API():
+    category = input("Enter a category: ")
+    results =get_books_by_category_API(category)
+    print(tabulate_books(results))
+
 
 def get_all_books():
-    return get_all_books_API()
+    results = get_all_books_API()
+    print(tabulate_books(results))
+
 
 def show_consult_menu():
     """
@@ -90,6 +100,6 @@ or e(X)it the program
     # return user_choice
 
 main_function_dict = {"B": add_book, "U": add_user, "C": show_consult_menu, "S": make_sale} # todo make these function
-consult_menu_dict = {"U": show_user_statistics_menu, "S": best_sellers, "C": books_by_category, "A": get_all_books}
+consult_menu_dict = {"U": show_user_statistics_menu, "S": best_sellers, "C": books_by_category_API, "A": get_all_books}
 
 show_menu()
