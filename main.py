@@ -1,5 +1,6 @@
 # This is going to be the main python file for the project
 from helper_functions import get_valid_input
+from API_books import get_all_books_API,get_book_by_isbn,get_book_by_title_API,get_books_by_author_API,get_books_by_category_API,get_books_by_publisherfrom 
 from customers_editor import CustomerEditor
 
 def add_book():
@@ -10,6 +11,7 @@ def add_user():
 
 def make_sale():
     pass
+
 
 def show_age_distribution():
     CustomerEditor.view_age_distribution()
@@ -35,11 +37,11 @@ Show (A)ge distribution
 def best_sellers():
     pass
 
-def books_by_category():
-    pass
+def books_by_category(category):
+    get_books_by_category_API(category)
 
 def get_all_books():
-    pass
+    return get_all_books_API()
 
 def show_consult_menu():
     """
