@@ -1,5 +1,4 @@
-from packages.google_books_api_wrapper.api import GoogleBooksAPI
-
+from google_books_api_wrapper.api import GoogleBooksAPI
 client = GoogleBooksAPI()
 
 def get_all_books_API():
