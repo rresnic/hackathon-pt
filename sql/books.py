@@ -134,6 +134,7 @@ def insert_book_from_google(book):
     print("Inserted", [title, authors, publisher, published_date, description, isbn, categories])
 
 def insert_books_from_google(books):
+    print("in insert", books)
     if isinstance(books, list):
         for book in books:
             insert_book_from_google(book)
@@ -148,7 +149,6 @@ def get_books_by_title(title):
     query= "SELECT * FROM books WHERE title LIKE ? COLLATE NOCASE"
     term = f"%{title}%"
     params = (term,)
-    print(params)
     results = run_query(query, params)
     return results
 
@@ -156,9 +156,30 @@ def get_books_by_category(category):
     query = "SELECT * from books inner join book_category on books.id = book_category.book_id inner join category on book_category.category_id = category.id WHERE category.name LIKE ? COLLATE NOCASE"
     term = f"%{category}%"
     params = (term,)
-    print(params)
     results = run_query(query, params)
     return results
+
+def get_books_by_author(author):
+    query = "SELECT * from books WHERE author LIKE ? COLLATE NOCASE"
+    term = f"%{author}%"
+    params = (term,)
+    results = run_query(query, params)
+    return results
+
+def get_books_by_publisher(publisher):
+    query = "SELECT * from books WHERE publisher LIKE ? COLLATE NOCASE"
+    term = f"%{publisher}%"
+    params = (term,)
+    results = run_query(query, params)
+    return results
+
+def get_books_by_isbn(isbn):
+    query = "SELECT * from books WHERE isbn LIKE ? COLLATE NOCASE"
+    term = f"%{isbn}%"
+    params = (term,)
+    results = run_query(query, params)
+    return results
+
 
 def get_all_books():
     query = "SELECT * from books inner join book_category on books.id = book_category.book_id inner join category on book_category.category_id = category.id"
