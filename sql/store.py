@@ -5,7 +5,7 @@ from tabulate import tabulate
 
 def run_query(query, params=None):
     try:
-        connection = sqlite3.connect("bookstore.db")
+        connection = sqlite3.connect("../db/bookstore.db")
         cursor = connection.cursor()
         if params:
             cursor.execute(query, params)
