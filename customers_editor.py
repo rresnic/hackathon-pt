@@ -12,6 +12,13 @@ class CustomerEditor:
     def view_customer_by_id(cls, id):
         cust = CustomerManager.get_customer_by_id(id)
         print(cust)
+        return cust
+    
+    @classmethod
+    def view_customer_by_email(cls, email):
+        cust = CustomerManager.get_by_email(email)
+        print(cust)
+        return cust            
     
     @classmethod
     def add_customer(cls):
@@ -34,3 +41,17 @@ class CustomerEditor:
     def show_all_customers(cls):
         customers = CustomerManager.all_customer_tabular()
         print(tabulate(customers, ["Name", "Age", "Email"]))
+
+    @classmethod
+    def update_customer(cls, id):
+        name = input("Enter customer name: ")
+        age = input("Enter a customer age: ")
+        email = input("Enter a customer email: ")
+        customer = CustomerManager.get_customer_by_id(id)
+        customer.update(name, age, email)
+
+    @classmethod
+    def delete_customer(cls, id):
+        customer = CustomerManager.get_customer_by_id(id)
+        customer.delete()
+

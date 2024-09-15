@@ -31,6 +31,17 @@ class CustomerManager:
             return None
     
     @classmethod
+    def get_by_email(cls, email):
+        query = "SELECT * FROM customers WHERE email LIKE ?"
+        term = f"%{email}%"
+        params = (term,)
+        results = CustomerManager.run_query(query, params)
+        if results and len(results) > 0:
+            return Customer.load_customer(results[0])
+        else:
+            return None
+        
+    @classmethod
     def get_customer_by_id(cls, id):
         query = "SELECT * from customers WHERE customer_id = ?"
         params = (id,)

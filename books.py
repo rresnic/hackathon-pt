@@ -185,3 +185,9 @@ def get_all_books():
     query = "SELECT * from books inner join book_category on books.id = book_category.book_id inner join category on book_category.category_id = category.id"
     results = run_query(query)
     return results
+
+def get_categories():
+    query = """SELECT DISTINCT name from Category"""
+    categories = run_query(query)
+    categories = [item[0] for item in categories]
+    return ", ".join(categories)
