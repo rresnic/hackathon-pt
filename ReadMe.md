@@ -12,3 +12,5 @@ Requirements:
 - Activate with: source venv/bin/activate
 - pip install -r requirements.txt
 - Python3 main.py
+
+Authors: Yitzy Resnicoff and Diego Literat
