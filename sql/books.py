@@ -5,7 +5,7 @@ import sql.store as store
 
 def run_query(query, params=None):
     try:
-        connection = sqlite3.connect("bookstore.db")
+        connection = sqlite3.connect("../db/bookstore.db")
         cursor = connection.cursor()
         if params:
             cursor.execute(query, params)
@@ -62,7 +62,7 @@ def create_book_category_table():
 
 def insert_book_data(title, authors, publisher, published_date, description, isbn, categories):
     try:
-        connection = sqlite3.connect("bookstore.db")
+        connection = sqlite3.connect("../db/bookstore.db")
         cursor = connection.cursor()    # Check if the book with the same ISBN already exists
         cursor.execute('SELECT id FROM books WHERE isbn = ?', (isbn,))
         existing_book = cursor.fetchone()

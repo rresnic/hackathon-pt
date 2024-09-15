@@ -6,7 +6,7 @@ class CustomerManager:
     @classmethod
     def run_query(cls,query, params = None):
         try:
-            connection = sqlite3.connect("bookstore.db")
+            connection = sqlite3.connect("../db/bookstore.db")
             cursor = connection.cursor()
             if params:
                 cursor.execute(query, params)
