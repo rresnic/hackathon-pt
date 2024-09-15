@@ -6,6 +6,9 @@
 ### * Add new users
 ### * Make sales
 
+## Comments
+### - Due to Google's book API lacking a significant number of ISBN values, you may fail to add some books to the database. This is expected- ISBNs are required data
+
 ## Requirements: 
 ### - git clone https://github.com/rresnic/hackathon-pt.git
 ### - Python3

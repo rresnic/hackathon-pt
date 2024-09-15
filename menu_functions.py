@@ -49,7 +49,7 @@ def add_books_A():
     results = get_books_by_author_API(author)
     results = list(results)
     print(tabulate_books(results))
-    user_choice = get_valid_input("Add this book to the library? Y/N ", ["Y", "N"])
+    user_choice = get_valid_input("Add these books to the library? Y/N ", ["Y", "N"])
     if user_choice == "Y":
         books.insert_books_from_google(results)
 
@@ -58,7 +58,7 @@ def add_books_C():
     results = get_books_by_category_API(category)
     results = list(results)
     print(tabulate_books(results))
-    user_choice = get_valid_input("Add this book to the library? Y/N ", ["Y", "N"])
+    user_choice = get_valid_input("Add these books to the library? Y/N ", ["Y", "N"])
     if user_choice == "Y":
         books.insert_books_from_google(results)
 
@@ -76,7 +76,7 @@ def add_books_P():
     results = get_books_by_category_API(publisher)
     results = list(results)
     print(tabulate_books(results))
-    user_choice = get_valid_input("Add this book to the library? Y/N ", ["Y", "N"])
+    user_choice = get_valid_input("Add these books to the library? Y/N ", ["Y", "N"])
     if user_choice == "Y":
         books.insert_books_from_google(results)
 
