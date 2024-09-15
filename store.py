@@ -60,7 +60,7 @@ def create_inventory_item(book_id):
 # create_inventory_item(1)
 
 def get_best_sellers_emp(limit=10):
-    query = """SELECT books.id, books.title, books.author, books.isbn, SUM(sales.quantity) AS total_sales FROM books INNER JOIN sales ON books.id = sales.book_id WHERE sales.book_id IS NOT NULL GROUP BY books.id ORDER BY total_sales LIMIT ?;
+    query = """SELECT books.id, books.title, books.author, books.isbn, SUM(sales.quantity) AS total_sales, inventory.quantity FROM books INNER JOIN sales ON books.id = sales.book_id INNER JOIN inventory ON inventory.book_id = books.id WHERE sales.book_id IS NOT NULL GROUP BY books.id ORDER BY total_sales LIMIT ?;
 """
     params = (limit,)
     result = run_query(query, params)
@@ -93,3 +93,36 @@ def make_sale(id, quantity= 1, customer_id=1):
     else:
         print("An inventory error occurred")
 
+def update_quantity_book_id(id, quantity=1):
+    query = """UPDATE inventory SET quantity = ? WHERE book_id = ?;"""
+    params = (quantity, id)
+    result = run_query(query, params)
+    return result
+
+def get_inv_data_id(id):
+    query = """SELECT books.id, books.title, books.author, books.isbn, SUM(sales.quantity) as total_sales, inventory.quantity FROM books INNER JOIN inventory ON books.id = inventory.book_id LEFT OUTER JOIN sales on sales.book_id = inventory.book_id WHERE books.id = ? GROUP BY books.id;"""
+    params = (id,)
+    result = run_query(query, params)
+    return result
+
+def get_inv_data_author(author):
+    query = """SELECT books.id, books.title, books.author, books.isbn, SUM(sales.quantity) as total_sales, inventory.quantity FROM books INNER JOIN inventory ON books.id = inventory.book_id LEFT OUTER JOIN sales on sales.book_id = inventory.book_id WHERE books.author like ? GROUP BY books.id;"""
+    term = f"%{author}%"
+    params = (term,)
+    result = run_query(query, params)
+    return result
+
+def get_inv_data_title(title):
+    query = """SELECT books.id, books.title, books.author, books.isbn, SUM(sales.quantity) as total_sales, inventory.quantity FROM books INNER JOIN inventory ON books.id = inventory.book_id LEFT OUTER JOIN sales on sales.book_id = inventory.book_id WHERE books.title like ? GROUP BY books.id;"""
+    term = f"%{title}%"
+    params = (term,)
+    result = run_query(query, params)
+    return result
+
+def get_inv_data_all():
+    query = """SELECT books.id, books.title, books.author, books.isbn, SUM(sales.quantity) as total_sales, inventory.quantity FROM books INNER JOIN inventory ON books.id = inventory.book_id LEFT OUTER JOIN sales on sales.book_id = inventory.book_id GROUP BY books.id;"""
+    result = run_query(query)
+    return result
+# print(get_inv_data_all())
+# update_quantity_book_id(2, 10)
+# print(get_inv_data_id(2))

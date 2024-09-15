@@ -191,3 +191,15 @@ def get_categories():
     categories = run_query(query)
     categories = [item[0] for item in categories]
     return ", ".join(categories)
+
+def edit_title_by_id(book_id, title):
+    query = """UPDATE books SET title = ? WHERE id = ?;"""
+    params = (title, book_id)
+    result = run_query(query, params)
+    return result
+
+def edit_author_by_id(book_id, author):
+    query = """UPDATE books SET author = ? WHERE id = ?;"""
+    params = (author, book_id)
+    result = run_query(query, params)
+    return result
