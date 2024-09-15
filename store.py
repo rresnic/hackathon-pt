@@ -107,6 +107,7 @@ def get_inv_data_id(id):
 
 def get_inv_data_author(author):
     query = """SELECT books.id, books.title, books.author, books.isbn, SUM(sales.quantity) as total_sales, inventory.quantity FROM books INNER JOIN inventory ON books.id = inventory.book_id LEFT OUTER JOIN sales on sales.book_id = inventory.book_id WHERE books.author like ? GROUP BY books.id;"""
+    author = author.strip()
     term = f"%{author}%"
     params = (term,)
     result = run_query(query, params)
@@ -114,6 +115,7 @@ def get_inv_data_author(author):
 
 def get_inv_data_title(title):
     query = """SELECT books.id, books.title, books.author, books.isbn, SUM(sales.quantity) as total_sales, inventory.quantity FROM books INNER JOIN inventory ON books.id = inventory.book_id LEFT OUTER JOIN sales on sales.book_id = inventory.book_id WHERE books.title like ? GROUP BY books.id;"""
+    title = title.strip()
     term = f"%{title}%"
     params = (term,)
     result = run_query(query, params)

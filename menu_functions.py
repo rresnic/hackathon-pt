@@ -21,7 +21,8 @@ def get_customer_by_email():
         menu_string="""
 (U)pdate Customer
 (D)elete Customer or
-(B)ack"""
+(B)ack
+"""
         show_menu(menu_string, {"U": (CustomerEditor.update_customer, id), "D": (CustomerEditor.delete_customer, id)}, "B", False)
 
 def show_customer_menu():
@@ -135,7 +136,8 @@ def edit_book_id():
 Edit (T)itle
 Edit (A)uthor
 Update (S)tock
-(B)ack"""
+(B)ack
+"""
     book_edit_dict ={"T": (edit_title, id), "A": (edit_author, id), "S": (edit_stock, id)}
     show_menu(menu_string, book_edit_dict, "B")
         # query = """SELECT books.id, books.title, books.author, books.isbn, SUM(sales.quantity) AS total_sales FROM books INNER JOIN sales ON books.id = sales.book_id WHERE sales.book_id IS NOT NULL GROUP BY books.id ORDER BY total_sales LIMIT ?;
@@ -215,8 +217,9 @@ def get_all_books_db():
 
 def get_categories():
     results = books.get_categories()
-    print(results)
-
+    print("Categories: ")
+    for category in results.split(","):
+        print(category)
 
 def show_consult_menu():
     """
@@ -250,7 +253,7 @@ Manage (U)sers
 (S)ell a book
 or e(X)it the program
 """
-    main_function_dict = {"I": (show_inventory_menu,), "U": (show_customer_menu,), "C": (show_consult_menu,), "S": (make_sale,)} # todo make these function
+    main_function_dict = {"I": (show_inventory_menu,), "U": (show_customer_menu,), "C": (show_consult_menu,), "S": (make_sale,)} 
     show_menu(menu_string, main_function_dict)
 
 # show_program_menu()
