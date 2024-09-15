@@ -7,6 +7,7 @@
 ### * Make sales
 
 ## Requirements: 
+### - git clone https://github.com/rresnic/hackathon-pt.git
 ### - Python3
 ### - Virtual environment: python3 -m venv venv
 ### - Activate with: source venv/bin/activate
