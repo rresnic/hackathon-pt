@@ -8,12 +8,7 @@ The book store is a program that was designed to:
 
 Requirements: 
 - Python3
-- Pip3 install -r requirements.txt
-- sqlite3
-- Tabulate
-- google_books_api_wrapper
-
-To run the program:
-- create a Virtual environment: python3 -m venv venv
+- Virtual environment: python3 -m venv venv
 - Activate with: source venv/bin/activate
+- pip install -r requirements.txt
 - Python3 main.py
