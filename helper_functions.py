@@ -24,10 +24,10 @@ def tabulate_books(books):
     headers = ["Title", "Authors"]
     print(type(books))
     if isinstance(books, list):
-        data = [[book.title, ','.join(book.authors) if isinstance(book.authors, list) else (book.authors or '')] for book in books]
+        data = [[book.title[:50], ','.join(book.authors)[:50] if isinstance(book.authors, list) else (book.authors or '')[:50]] for book in books]
     else:
         data = []
-        row = [books.title, ','.join(books.authors) if isinstance(books.authors, list) else (books.authors or '')]
+        row = [books.title[:50], ','.join(books.authors)[:50] if isinstance(books.authors, list) else (books.authors or '')[:50]]
         data.append(row)
         
     return tabulate(data, headers, tablefmt="grid")
@@ -37,7 +37,7 @@ def get_filtered_table(data, headers, skip_columns=[]):
     filtered_headers = [h for i, h in enumerate(headers) if i not in skip_columns]
     
     # Filter out the data for columns we want to skip
-    filtered_data = [[row[i] for i in range(len(row)) if i not in skip_columns] for row in data]
+    filtered_data = [[str(row[i])[:50] for i in range(len(row)) if i not in skip_columns] for row in data]
     
     # Generate the table
     table = tabulate(filtered_data, headers=filtered_headers, tablefmt="grid")
