@@ -153,7 +153,7 @@ def get_inv_by_title():
 
 def get_inv_by_author():
     author = input("Enter an author: ")
-    results = store.get_inv_data_title(author)
+    results = store.get_inv_data_author(author)
     print(get_filtered_table(results, ["ID", "Title", "Author", "ISBN", "Sold", "In Stock"]))
 
 def get_all_inv():
