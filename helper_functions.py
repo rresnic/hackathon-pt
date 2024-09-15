@@ -22,7 +22,6 @@ def show_menu(menu_string, menu_dict, exit="X", repeating=True):
 
 def tabulate_books(books):
     headers = ["Title", "Authors"]
-    print(type(books))
     if isinstance(books, list):
         data = [[book.title[:50], ','.join(book.authors)[:50] if isinstance(book.authors, list) else (book.authors or '')[:50]] for book in books]
     else:

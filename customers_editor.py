@@ -24,8 +24,8 @@ class CustomerEditor:
     def add_customer(cls):
         try: 
             name = input("Enter the name: ")
-            age = int(input("Enter the age as a whole number"))
-            email = input("Enter the email: e.g. sample@host.com")
+            age = int(input("Enter the age as a whole number: "))
+            email = input("Enter the email: e.g. sample@host.com: ")
             new_cust = Customer(name, age, email)
             if new_cust.save():
                 print("Customer Added Successfully")

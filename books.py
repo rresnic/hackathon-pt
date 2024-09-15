@@ -131,10 +131,8 @@ def insert_book_from_google(book):
     if book.subjects:
         categories = book.subjects
     insert_book_data(title, authors, publisher, published_date, description, isbn, categories)
-    print("Inserted", [title, authors, publisher, published_date, description, isbn, categories])
 
 def insert_books_from_google(books):
-    print("in insert", books)
     if isinstance(books, list):
         for book in books:
             insert_book_from_google(book)
