@@ -24,7 +24,7 @@ def create_customer_table():
             customer_id INTEGER PRIMARY KEY, 
             name TEXT,
             age INT, 
-            email TEXT
+            email TEXT UNIQUE NOT NULL
     );
     """
     
@@ -68,10 +68,17 @@ class Customer:
                 self.set_age(age)
             if email:
                 self.set_email(email)
-            query = "UPDATE customers SET name = ? item_price = ? WHERE item_id = ? RETURNING item_id"
+            query = "UPDATE customers SET name = ?, age = ?,  email = ? WHERE customer_id = ?"
             params = (self.name, self.age, self.email, self.id)
-            results = self.run_query(query, params)
-            return results
+            try:
+                connection = sqlite3.connect("bookstore.db")
+                cursor = connection.cursor()
+                cursor.execute(query, params)
+                connection.commit()
+                cursor.close()
+                connection.close()
+            except sqlite3.Error as e:
+                print(e)
         else: 
             print("Must be saved first")
             return None
@@ -166,3 +173,7 @@ create_customer_table()
 # print(test1)
 # test2 = Customer.load_customer(test1.get_customer()[0])
 # print(test2)
+# test2.update(name="",age="", email="sample2@other.com")
+# print(test2)
+# test3 = Customer.load_customer(test2.get_customer()[0])
+# print(test3)
