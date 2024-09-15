@@ -1,9 +1,9 @@
 # This is going to be the main python file for the project
 from helper_functions import get_valid_input
-from API.API_books import get_all_books_API,get_book_by_isbn,get_book_by_title_API,get_books_by_author_API,get_books_by_category_API,get_books_by_publisher
+from API_books import get_all_books_API,get_book_by_isbn,get_book_by_title_API,get_books_by_author_API,get_books_by_category_API,get_books_by_publisher
 from customers_editor import CustomerEditor
 from tabulate import tabulate
-import sql.books as books
+import books
 
 def add_book():
     pass
@@ -176,6 +176,10 @@ def show_inventory_menu():
         my_func = inv_menu_dict[user_choice]
         my_func()
 
+def search_inv_menu():
+    # TODO
+    return "We have some problems, try later"
+
 def show_menu():
     """
     Shows the primary program menu
@@ -215,7 +219,7 @@ def get_filtered_table(data, headers, skip_columns=[]):
     return table
 
 main_function_dict = {"B": add_books_menu, "U": add_user, "C": show_consult_menu, "S": make_sale} # todo make these function
-# inv_menu_dict = {"A": add_book_menu, "S": search_inv_menu}
+inv_menu_dict = {"A": add_books_menu, "S": search_inv_menu}
 # inventory_menu_dict = ("A": show_all_inventory, "B": search_by_name, "C": search_by_category, "D": search_by_isbn, "I": add_book_menu)
 # inventory_add_dict = {"A": search_api_by_author, "B": search_api_by_name, "C": search_api_by_category, "D": search_api_by_isbn}
 

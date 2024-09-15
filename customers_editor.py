@@ -1,5 +1,5 @@
-from sql.customers_manager import CustomerManager
-from sql.customers import Customer
+from customers_manager import CustomerManager
+from customers import Customer
 from tabulate import tabulate
 
 class CustomerEditor:
